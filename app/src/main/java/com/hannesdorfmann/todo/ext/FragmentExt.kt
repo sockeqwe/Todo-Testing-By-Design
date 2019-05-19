@@ -105,14 +105,10 @@ class ViewBinderFactoryDelegate<T>(
 
     private var viewBinder: Any? = UninitializedValue
 
-    init {
-        fragment.lifecycle.addObserver(this)
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    private fun stopped() {
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    private fun viewDestroyed() {
         viewBinder = UninitializedValue
-        fragment.lifecycle.removeObserver(this)
+        fragment.viewLifecycleOwner.lifecycle.removeObserver(this)
     }
 
     operator fun getValue(thisRef: Any, property: KProperty<*>): T {
@@ -120,6 +116,15 @@ class ViewBinderFactoryDelegate<T>(
             viewBinder =
                 factoryAccessor().get(fragment, rootViewAccessor())
                     ?: throw IllegalArgumentException("No ViewBinder found for $fragment")
+
+            if (fragment.view == null) {
+                throw NullPointerException(
+                    "View of Fragment is null. " +
+                        "You try to access the viewBinder before Fragment.onCreateView() has been called." +
+                        "Fragment is $fragment"
+                )
+            }
+            fragment.viewLifecycleOwner.lifecycle.addObserver(this)
         }
         @Suppress("UNCHECKED_CAST")
         return viewBinder as T

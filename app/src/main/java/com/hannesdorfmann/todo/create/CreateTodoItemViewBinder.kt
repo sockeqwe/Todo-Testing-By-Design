@@ -3,9 +3,11 @@ package com.hannesdorfmann.todo.create
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
 import androidx.navigation.Navigation
+import androidx.transition.TransitionManager
 import com.hannesdorfmann.todo.R
 import com.hannesdorfmann.todo.ext.gone
 import com.hannesdorfmann.todo.ext.visible
@@ -49,7 +51,8 @@ class CreateTodoItemViewBinder(private val rootView: View) {
 
     lateinit var actionListener: (Action) -> Unit
 
-    fun render(state: State) =
+    fun render(state: State) {
+        TransitionManager.beginDelayedTransition(rootView as ViewGroup)
         when (state) {
             is State.EnterTextState -> {
                 if (state.title != step1Title.text.toString())
@@ -89,4 +92,5 @@ class CreateTodoItemViewBinder(private val rootView: View) {
             }
 
         }
+    }
 }

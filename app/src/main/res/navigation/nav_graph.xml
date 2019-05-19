@@ -6,7 +6,12 @@
     <fragment android:id="@+id/todoListViewFragment" android:name="com.hannesdorfmann.todo.list.TodoListViewFragment"
               android:label="TodoListViewFragment">
         <action android:id="@+id/action_show_create_new_item"
-                app:destination="@id/createTodoItemFragment"/>
+                app:destination="@id/createTodoItemFragment"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right"
+        />
     </fragment>
     <fragment android:id="@+id/createTodoItemFragment"
               android:name="com.hannesdorfmann.todo.create.CreateTodoItemFragment"
