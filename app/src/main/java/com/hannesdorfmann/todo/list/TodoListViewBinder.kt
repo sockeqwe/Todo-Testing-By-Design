@@ -8,7 +8,7 @@ import com.hannesdorfmann.todo.R
 import com.hannesdorfmann.todo.ext.gone
 import com.hannesdorfmann.todo.ext.visible
 
-class TodoListViewBinder(root: View) {
+open class TodoListViewBinder(root: View) {
 
     lateinit var actionListener: (TodoListStateMachine.Action) -> Unit
 
@@ -23,7 +23,7 @@ class TodoListViewBinder(root: View) {
         addNewItem.setOnClickListener { Navigation.findNavController(root).navigate(R.id.action_show_create_new_item) }
     }
 
-    fun render(state: TodoListStateMachine.State) = when (state) {
+    open fun render(state: TodoListStateMachine.State) = when (state) {
         TodoListStateMachine.State.Loading -> {
             loading.visible()
             error.gone()

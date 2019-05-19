@@ -3,12 +3,12 @@ package com.hannesdorfmann.todo.create
 import android.util.Log
 import com.freeletics.rxredux.StateAccessor
 import com.freeletics.rxredux.reduxStore
+import com.hannesdorfmann.todo.domain.IdGenerator
 import com.hannesdorfmann.todo.domain.TodoItem
 import com.hannesdorfmann.todo.domain.TodoRepository
 import com.jakewharton.rxrelay2.PublishRelay
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
-import java.util.UUID
 import javax.inject.Inject
 
 sealed class State {
@@ -37,7 +37,10 @@ private object SavedSuccessfullyAction : Action()
 
 // Todo save the current state into a bundle to survive process death (out of scope for this demo)
 // and start with the restored state from bundle as initial state of the state machine
-class CreateWizardStateMachine @Inject constructor(private val repository: TodoRepository) {
+class CreateWizardStateMachine @Inject constructor(
+    private val repository: TodoRepository,
+    private val idGenerator: IdGenerator
+) {
 
     val input = PublishRelay.create<Action>()
 
@@ -88,12 +91,12 @@ class CreateWizardStateMachine @Inject constructor(private val repository: TodoR
                     Observable.fromCallable {
                         repository.add(
                             TodoItem(
-                                id = UUID.randomUUID().toString(),
+                                id = idGenerator.nextId(),
                                 done = false,
-                                imagePath = null,
                                 text = state.title
                             )
                         )
+                        Thread.sleep(100)
                         SavedSuccessfullyAction as Action
                     }
                         .subscribeOn(Schedulers.io())

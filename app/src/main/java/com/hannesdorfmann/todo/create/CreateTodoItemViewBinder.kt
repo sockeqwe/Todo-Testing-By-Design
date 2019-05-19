@@ -1,9 +1,11 @@
 package com.hannesdorfmann.todo.create
 
+import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
 import androidx.navigation.Navigation
@@ -12,7 +14,7 @@ import com.hannesdorfmann.todo.R
 import com.hannesdorfmann.todo.ext.gone
 import com.hannesdorfmann.todo.ext.visible
 
-class CreateTodoItemViewBinder(private val rootView: View) {
+open class CreateTodoItemViewBinder(private val rootView: View) {
 
     private val step1 = rootView.findViewById<View>(R.id.create_step1)
     private val step2 = rootView.findViewById<View>(R.id.create_step2)
@@ -27,6 +29,7 @@ class CreateTodoItemViewBinder(private val rootView: View) {
 
     init {
         step1NextButton.setOnClickListener {
+            hideSoftInputFromWindow()
             actionListener(Action.NextStepAction)
         }
         step2CreateButton.setOnClickListener {
@@ -51,7 +54,7 @@ class CreateTodoItemViewBinder(private val rootView: View) {
 
     lateinit var actionListener: (Action) -> Unit
 
-    fun render(state: State) {
+    open fun render(state: State) {
         TransitionManager.beginDelayedTransition(rootView as ViewGroup)
         when (state) {
             is State.EnterTextState -> {
@@ -92,5 +95,10 @@ class CreateTodoItemViewBinder(private val rootView: View) {
             }
 
         }
+    }
+
+    private fun hideSoftInputFromWindow() {
+        val imm = rootView.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(step1Title.windowToken, 0)
     }
 }

@@ -3,6 +3,7 @@ package com.hannesdorfmann.todo.list
 import com.hannesdorfmann.todo.domain.TodoItem
 import com.hannesdorfmann.todo.domain.TodoRepository
 import io.reactivex.Observable
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class TodoListStateMachine @Inject constructor(private val repository: TodoRepository) {
@@ -21,6 +22,7 @@ class TodoListStateMachine @Inject constructor(private val repository: TodoRepos
     val state: Observable<State> =
         repository.getAll()
             .map { State.Content(it) as State }
+            .delay(1, TimeUnit.SECONDS)
             .onErrorReturn { State.Error }
             .startWith(State.Loading)
 

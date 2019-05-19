@@ -8,7 +8,6 @@ import androidx.room.PrimaryKey
 data class TodoItem(
     @PrimaryKey @ColumnInfo val id: String,
     @ColumnInfo val text: String,
-    @ColumnInfo val imagePath: String?,
     @ColumnInfo val done: Boolean
 ) {
     companion object {

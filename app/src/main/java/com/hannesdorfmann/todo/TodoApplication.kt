@@ -9,16 +9,17 @@ import com.hannesdorfmann.todo.di.viewBinderFactory
 import com.hannesdorfmann.todo.list.TodoListViewBinder
 import com.hannesdorfmann.todo.list.TodoListViewFragment
 
-class TodoApplication : Application() {
+open class TodoApplication : Application() {
     val component by lazy {
         DaggerApplicationComponent.builder()
-            .applicationModule(
-                ApplicationModule(context = this,
-                    viewBinderFactory = viewBinderFactory {
-                        TodoListViewFragment::class bindTo { TodoListViewBinder(it) }
-                        CreateTodoItemFragment::class bindTo { CreateTodoItemViewBinder(it) }
-                    })
-            )
+            .applicationModule(applicatinoModule())
             .build()
     }
+
+    open protected fun applicatinoModule(): ApplicationModule = ApplicationModule(
+        context = this,
+        viewBinderFactory = viewBinderFactory {
+            TodoListViewFragment::class bindTo { TodoListViewBinder(it) }
+            CreateTodoItemFragment::class bindTo { CreateTodoItemViewBinder(it) }
+        })
 }
