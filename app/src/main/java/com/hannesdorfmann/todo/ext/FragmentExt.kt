@@ -90,7 +90,7 @@ class LazyViewModelProvider<T : ViewModel>(
 }
 
 /**
- * Convinient way to access daggers application component
+ * Convenient way to access daggers application component
  */
 val Fragment.daggerComponent: ApplicationComponent
     get() = (requireActivity().application as TodoApplication).component
@@ -120,8 +120,7 @@ class ViewBinderFactoryDelegate<T>(
             if (fragment.view == null) {
                 throw NullPointerException(
                     "View of Fragment is null. " +
-                        "You try to access the viewBinder before Fragment.onCreateView() has been called." +
-                        "Fragment is $fragment"
+                        "You try to access the viewBinder before Fragment.onCreateView() has been called."
                 )
             }
             fragment.viewLifecycleOwner.lifecycle.addObserver(this)
