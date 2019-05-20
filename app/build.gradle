@@ -35,6 +35,7 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     androidTestImplementation 'androidx.test:rules:1.1.1'
+    androidTestCompile 'androidx.test.espresso:espresso-contrib:3.1.1'
 
     implementation 'com.freeletics.rxredux:rxredux:1.0.1'
     implementation "io.reactivex.rxjava2:rxjava:2.2.8"

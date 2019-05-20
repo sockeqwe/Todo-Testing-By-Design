@@ -6,9 +6,9 @@ import com.hannesdorfmann.todo.create.State
 import com.jakewharton.rxrelay2.ReplayRelay
 import io.reactivex.Observable
 
-class RecordingCreateTodoItemViewBinder(root: View) : CreateTodoItemViewBinder(root) {
+class ListenableCreateTodoItemViewBinder(root: View) : CreateTodoItemViewBinder(root) {
     companion object {
-        lateinit var INSTANCE: RecordingCreateTodoItemViewBinder
+        lateinit var INSTANCE: ListenableCreateTodoItemViewBinder
     }
 
     init {

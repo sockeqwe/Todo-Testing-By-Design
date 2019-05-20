@@ -36,4 +36,8 @@ class InMemoryTodoRepository(private val backgroundScheduler: Scheduler = Schedu
         Thread.sleep(100) // Simulate some io delay
         notifier.accept(Unit)
     }
+
+    fun clear() {
+        db.clear()
+    }
 }
